@@ -123,33 +123,33 @@ function showSteps($bdd, $num_act)
 
     if ($count > 0) {
         echo '<h1>ACTE 1</h1>';
-        echo '<div>';
         foreach ($request as $questIndex => $questInfo) {
+            echo '<div class="quest-card">';
             if ($questInfo['quest_finished'] == 0) {
                 if ($firstQuest) {
                     echo '<h2>' . $questInfo['quest_name'] . '</h2>';
                     echo '<h3>' . $questInfo['quest_text'] . '</h3>';
-                    echo '<img src="images/' . $questInfo['quest_content'] . '" alt="" width="200px">';
+                    echo '<img class="quest_img" src="images/' . $questInfo['quest_content'] . '" alt="">';
                     echo '<p>Locked</p>';
                 } else {
                     echo '<h2>' . $questInfo['quest_name'] . '</h2>';
                     echo '<h3>' . $questInfo['quest_text'] . '</h3>';
-                    echo '<img src="images/' . $questInfo['quest_content'] . '" alt="" width="200px">';
+                    echo '<img class="quest_img" src="images/' . $questInfo['quest_content'] . '" alt="">';
                     echo '<form method="POST" action="rep_validation.php">';
                     echo '<input type="hidden" name="quest_id" value="' . $questInfo['quest_id'] . '">';
                     echo '<input type="text" name="quest_rep" id="quest_rep" required placeholder="*****" autocomplete="off"><br />';
-                    echo '<input type="submit" value="Valider">';
+                    echo '<input class="quest_btn" type="submit" value="Valider">';
                     echo '</form>';
                 }
                 $firstQuest = true;
             } else {
                 echo '<h2>' . $questInfo['quest_name'] . '</h2>';
                 echo '<h3>' . $questInfo['quest_text'] . '</h3>';
-                echo '<img src="images/' . $questInfo['quest_content'] . '" alt="" width="200px">';
-                echo '<p>Already Finished :)</p>';   
+                echo '<img class="quest_img" src="images/' . $questInfo['quest_content'] . '" alt="">';
+                echo '<p>Already Finished :)</p>';
             }
+            echo '</div>';
         }
-        echo '</div>';
     } else {
         echo "Il n'y a pas de questions pour votre TP. <br />
         C'est une erreur, contactez des étudiants de S3";
@@ -175,7 +175,6 @@ function verifQuest($bdd, $quest_id, $quest_rep)
             $finished = 'UPDATE quest SET quest_finished = 1 WHERE quest_id = ' . $quest_id . '';
             $finished = $bdd->query($finished);
             $_SESSION['rep_info'] = '<h3>Bonne réponse !</h3>';
-
         } else {
             $_SESSION['rep_info'] = '<h3>Ce n\'est pas la bonne réponse</h3>';
             header('Location: index.php');
@@ -225,7 +224,7 @@ function showAct($bdd, $num_act)
                 echo '<div>';
                 echo '<h2>Étapes finies ' . $count_finished . '/' . $count . '</h2>';
                 echo round($count_finished / $count * 100) . '% <br />';
-                echo '<progress value="'.round($count_finished / $count * 100).'" max="100">  </progress><br />';
+                echo '<progress value="' . round($count_finished / $count * 100) . '" max="100">  </progress><br />';
                 echo 'In progress... <br />';
                 echo '<a href="acte' . $num_act . '.php">GO</a>';
                 echo '</div>';

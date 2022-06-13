@@ -38,11 +38,52 @@ h1, h2, h3 {
     margin: 6rem 0.5rem;
     border-radius: 12px;
     height: 40vh;
-    background-color: #f4f4f4;
+    background-color: #ffb4b4;
 }
 
 .act-card * {
     text-align: center;
+}
+
+
+.quest-card {
+    margin: 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.quest-card form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* .quest-card h2, h3 {
+    text-align: center;
+} */
+
+#quest_rep {
+    height: 30px;
+    width: 100%;
+    padding-left: 0.5rem;
+}
+
+.quest_btn {
+    width: 50%;
+    height: 30px;
+    margin-top: 0.8rem;
+}
+
+.quest_img {
+    width: 50%;
+    text-align: center;
+}
+
+progress {
+    height: 50px;
+    width: 98%;
 }
 
 a {
