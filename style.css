@@ -1,0 +1,55 @@
+@font-face {
+    font-family: NexaRegular;
+    src: url('/fonts/NexaRegular.otf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: NexaBold;
+    src: url('/fonts/NexaBold.otf');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: NexaLight;
+    src: url('/fonts/NexaLight.otf');
+    font-weight: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    font-family: NexaRegular, sans-serif;
+    font-weight: normal;
+}
+
+#container {
+    width: 90vw;
+    margin: auto;
+}
+
+h1, h2, h3 {
+    font-family: NexaRegular, sans-serif;
+}
+
+.act-card {
+    padding: 0.5rem 1rem;
+    margin: 6rem 0.5rem;
+    border-radius: 12px;
+    height: 40vh;
+    background-color: #f4f4f4;
+}
+
+.act-card * {
+    text-align: center;
+}
+
+a {
+    color: rgb(0, 149, 255);
+    text-decoration: none;
+}
+
+a:hover {
+    color: rgb(0, 108, 185);
+}
