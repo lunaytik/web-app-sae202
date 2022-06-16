@@ -111,6 +111,7 @@ function addQuest($bdd, $quest_name, $quest_text, $quest_content, $quest_rep, $q
 function showSteps($bdd, $num_act)
 {
     $firstQuest = false;
+    $count_quest_finished = 0;
 
     $req = 'SELECT * FROM quest WHERE _quest_tp = "' . $_SESSION['user_tp'] . '" AND quest_act = ' . $num_act . ' ORDER BY quest_act, quest_step ASC';
     try {
@@ -122,7 +123,7 @@ function showSteps($bdd, $num_act)
     }
 
     if ($count > 0) {
-        echo '<h1>ACTE 1</h1>';
+        echo '<h1>ACT '.$num_act.'</h1>';
         foreach ($request as $questIndex => $questInfo) {
             echo '<div class="quest-card">';
             if ($questInfo['quest_finished'] == 0) {
@@ -143,12 +144,18 @@ function showSteps($bdd, $num_act)
                 }
                 $firstQuest = true;
             } else {
+                $count_quest_finished++;
                 echo '<h2>' . $questInfo['quest_name'] . '</h2>';
                 echo '<h3>' . $questInfo['quest_text'] . '</h3>';
                 echo '<img class="quest_img" src="images/' . $questInfo['quest_content'] . '" alt="">';
                 echo '<p>Already Finished :)</p>';
             }
             echo '</div>';
+
+            if ($count_quest_finished == $count) {
+                echo "<p>Vous avez fini cette merde passer au suivant !</p>";
+                echo '<a class="user_btn" href="questions.php?act='.$_SESSION['user_act']+1 .'">PASSER A L\'ACT SUIVANT</a>';
+            }
         }
     } else {
         echo "Il n'y a pas de questions pour votre TP. <br />
@@ -164,6 +171,7 @@ function verifQuest($bdd, $quest_id, $quest_rep)
     try {
         $request = $bdd->query($req);
         $quest = $request->fetch();
+        var_dump($quest);
     } catch (PDOException $e) {
         echo '<p>Erreur : ' . $e->getMessage() . '</p>';
         die();
@@ -177,11 +185,11 @@ function verifQuest($bdd, $quest_id, $quest_rep)
             $_SESSION['rep_info'] = '<h3>Bonne réponse !</h3>';
         } else {
             $_SESSION['rep_info'] = '<h3>Ce n\'est pas la bonne réponse</h3>';
-            header('Location: index.php');
+            header('Location: questions.php');
         }
     } else {
-        $_SESSION['rep_info'] = '<h3>Cet quête n\'existe pas</h3>';
-        header('Location: index.php');
+        $_SESSION['rep_info'] = '<h3>Cette question n\'existe pas</h3>';
+        header('Location: questions.php');
     }
 }
 
@@ -211,34 +219,40 @@ function showAct($bdd, $num_act)
         die();
     }
     if ($count > 0) {
-        echo '<div class="act-card">';
+        echo '<div class="act-card">'."\n";
         if ($count != $count_finished) {
             if ($inProgress) {
-                echo '<h1>ACT ' . $num_act . '</h1>';
-                echo '<div>';
-                echo '<h2>Étapes finies ' . $count_finished . '/' . $count . '</h2>';
-                echo 'Locked';
-                echo '</div>';
+                echo '<div id="link'.$num_act.'" class="act-link act-bg-locked"></div>'."\n";
+                echo '<div class="act-lock act-locked"> <i class="fa-solid fa-lock"></i> </div>'."\n";
+                echo '<div class="act-infos">'."\n";
+                echo '<h1 class="act-title">ACT ' . $num_act . '</h1>'."\n";
+                echo '<h4 class="act-txt act-locked">Locked</h4>'."\n";
+                echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>'."\n";
+                echo '</div>'."\n";
             } else {
-                echo '<h1>ACT ' . $num_act . '</h1>';
-                echo '<div>';
-                echo '<h2>Étapes finies ' . $count_finished . '/' . $count . '</h2>';
-                echo round($count_finished / $count * 100) . '% <br />';
-                echo '<progress value="' . round($count_finished / $count * 100) . '" max="100">  </progress><br />';
-                echo 'In progress... <br />';
-                echo '<a href="acte' . $num_act . '.php">GO</a>';
-                echo '</div>';
+                echo '<div id="link'.$num_act.'" class="act-link act-bg-unlocked"></div>'."\n";
+                echo '<div class="act-lock act-unlocked"> <i class="fa-solid fa-unlock"></i> </div>'."\n";
+                echo '<div class="act-infos">';
+                echo '<h1 class="act-title">ACT ' . $num_act . '</h1>'."\n";
+                echo '<h4 class="act-txt act-unlocked">Unlocked</h4>'."\n";
+                echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>'."\n";
+                echo '<h3 class="act-prog">'.round($count_finished / $count * 100) . '% </h3>'."\n";
+                //echo '<progress value="' . round($count_finished / $count * 100) . '" max="100">'.round($count_finished / $count * 100).'%</progress>';
+                echo '<a href="questions.php?act='.$num_act.'">GO <i class="fa-solid fa-angles-right"></i></a>'."\n";
+                echo '</div>'."\n";
                 $inProgress = true;
             }
         } else {
-            echo '<h1>ACT ' . $num_act . '</h1>';
-            echo '<div>';
-            echo '<h2>Étapes finies ' . $count_finished . '/' . $count . '</h2>';
-            echo 'Finished <br />';
-            echo 'showHint();';
-            echo '</div>';
+            echo '<div id="link'.$num_act.'" class="act-link act-bg-unlocked"></div>'."\n";
+            echo '<div class="act-lock act-unlocked"> <i class="fa-solid fa-check"></i> </div>'."\n";
+            echo '<div class="act-infos">'."\n";
+            echo '<h1 class="act-title">ACT ' . $num_act . '</h1>'."\n";
+            echo '<h4 class="act-txt act-unlocked">Finished</h4>'."\n";
+            echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>'."\n";
+            //echo '<h4>showHint();</h4>'."\n";
+            echo '</div>'."\n";
         }
-        echo '</div>';
+        echo '</div>'."\n";
     } else {
         echo "Il n'y a pas de questions dans cet acte. <br />
         C'est une erreur, contactez des étudiants de S3";

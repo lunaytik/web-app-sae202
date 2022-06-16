@@ -12,7 +12,7 @@ if (!empty($_POST)) {
     verifQuest($bdd, $quest_id, $quest_rep);
 
     deconnexionBDD($bdd);
-    header('Location: index.php');
+    header('Location: questions.php');
 }
 ?>
 

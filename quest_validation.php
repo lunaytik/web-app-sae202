@@ -29,7 +29,7 @@
 
 
         deconnexionBDD($bdd);
-        header('Location: quest.php');
+       header('Location: quest.php');
     }
 ?>
 

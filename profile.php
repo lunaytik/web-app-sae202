@@ -16,7 +16,7 @@
     }
 ?>
 
-<a href="index.php">Retour</a>
+<a href="index.php">Retour <i class="fa-solid fa-turn-down"></i></a>
 
 <?php require 'inc/html_end.inc.php'; ?>
 

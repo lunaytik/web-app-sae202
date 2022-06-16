@@ -3,22 +3,28 @@
 <?php
 
 if (isset($_SESSION['logged'])) {
-    echo '<a href="profile.php">Profil</a><br />';
-    echo '<a href="logout.php">Déconnexion</a>';
+    echo '<a href="profile.php"><i class="fa-solid fa-user"></i><span>Profil</span></a><br />'."\n";
+    echo '<a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span></a><br />'."\n";
 } else {
-    echo '<a href="login.php">Connexion</a><br />';
-    echo '<a href="signup.php">Inscription</a>';
+    echo '<a href="login.php">Connexion</a><br />'."\n";
+    echo '<a href="signup.php">Inscription</a><br />'."\n";
 }
 
 
 
 if (isset($_SESSION['logged'])) {
     $bdd = connexionBDD();
-    echo '<br />';
-    echo '<a href="reset.php">RESET</a>';
-    echo '<br />';
-    echo '<br />';
-    echo '<br />';
+    echo '<a href="reset.php"><i class="fa-solid fa-arrow-rotate-left"></i> <span>RESET</span></a><br />'."\n";
+
+    if (isset($_SESSION['act_error'])) {
+        echo $_SESSION['act_error'];
+        unset($_SESSION['act_error']);
+    }
+
+    if (isset($_SESSION['user_act'])) {
+        echo '<a class="user_btn" href="questions.php">Retourner où vous en étiez <i class="fa-solid fa-angles-right"></i></a>'."\n";
+    }
+
 
     $count_act_req = 'SELECT COUNT(DISTINCT quest_act) as act_count FROM quest';
     try {
@@ -33,16 +39,16 @@ if (isset($_SESSION['logged'])) {
         showAct($bdd, $num);
     }
 
-    if (isset($_SESSION['rep_info'])) {
-        echo $_SESSION['rep_info'];
-        unset($_SESSION['rep_info']);
-    }
-    
-    showSteps($bdd, 1);
+   echo '<style>#link'.$count_act['act_count'].' { display:none }</style>';
 
     deconnexionBDD($bdd);
 }
 
+
+
 ?>
+
+
+
 
 <?php require 'inc/html_end.inc.php'; ?>
