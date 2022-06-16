@@ -123,38 +123,47 @@ function showSteps($bdd, $num_act)
     }
 
     if ($count > 0) {
-        echo '<h1>ACT '.$num_act.'</h1>';
+        echo '<h1 class="quest-big-title">ACT '.$num_act.'</h1>';
         foreach ($request as $questIndex => $questInfo) {
-            echo '<div class="quest-card">';
+            echo '<div class="quest-card-sh">'."\n";
+            echo '<div class="quest-card" id="'.$questInfo['quest_id'].'">'."\n";
             if ($questInfo['quest_finished'] == 0) {
                 if ($firstQuest) {
-                    echo '<h2>' . $questInfo['quest_name'] . '</h2>';
-                    echo '<h3>' . $questInfo['quest_text'] . '</h3>';
-                    echo '<img class="quest_img" src="images/' . $questInfo['quest_content'] . '" alt="">';
-                    echo '<p>Locked</p>';
+                    echo '<h2 class="braille-txt">' . $questInfo['quest_name'] . '</h2>'."\n";
+                    echo '<h3 class="braille-txt">' . $questInfo['quest_text'] . '</h3>'."\n";
+                    echo '<img class="quest-img" src="images/glitch.jpg" alt="">'."\n";
+                    //echo '<p>Locked</p>'."\n";
+                    echo '<div class="quest-lock-container">'."\n";
+                    echo '<div class="quest-lock quest-locked"> <i class="fa-solid fa-lock"></i> </div>'."\n";
+                    echo '</div>'."\n";
                 } else {
-                    echo '<h2>' . $questInfo['quest_name'] . '</h2>';
-                    echo '<h3>' . $questInfo['quest_text'] . '</h3>';
-                    echo '<img class="quest_img" src="images/' . $questInfo['quest_content'] . '" alt="">';
-                    echo '<form method="POST" action="rep_validation.php">';
-                    echo '<input type="hidden" name="quest_id" value="' . $questInfo['quest_id'] . '">';
-                    echo '<input type="text" name="quest_rep" id="quest_rep" required placeholder="*****" autocomplete="off"><br />';
-                    echo '<input class="quest_btn" type="submit" value="Valider">';
-                    echo '</form>';
+                    echo '<h2>' . $questInfo['quest_name'] . '</h2>'."\n";
+                    echo '<h3>' . $questInfo['quest_text'] . '</h3>'."\n";
+                    echo '<img class="quest-img" src="images/' . $questInfo['quest_content'] . '" alt="">'."\n";
+                    echo '<form method="POST" action="rep_validation.php">'."\n";
+                    echo '<input type="hidden" name="quest_id" value="' . $questInfo['quest_id'] . '">'."\n";
+                    echo '<div class="quest_form">'."\n";
+                    echo '<input class="quest-rep" type="text" name="quest_rep" id="quest_rep" required placeholder="L\'indice" autocomplete="off">'."\n";
+                    echo '<input class="quest-btn" type="submit" value="Valider">'."\n";
+                    echo '</div>'."\n";
+                    echo '</form>'."\n";
                 }
                 $firstQuest = true;
             } else {
                 $count_quest_finished++;
-                echo '<h2>' . $questInfo['quest_name'] . '</h2>';
-                echo '<h3>' . $questInfo['quest_text'] . '</h3>';
-                echo '<img class="quest_img" src="images/' . $questInfo['quest_content'] . '" alt="">';
-                echo '<p>Already Finished :)</p>';
+                echo '<h2>' . $questInfo['quest_name'] . '</h2>'."\n";
+                echo '<h3>' . $questInfo['quest_text'] . '</h3>'."\n";
+                echo '<img class="quest-img" src="images/' . $questInfo['quest_content'] . '" alt="">'."\n";
+                //echo '<p>Already Finished :)</p>'."\n";
+                echo '<div class="quest-lock quest-finished"> <i class="fa-solid fa-check"></i> </div>'."\n";
             }
-            echo '</div>';
+            echo '</div>'."\n";
+            echo '</div>'."\n";
 
             if ($count_quest_finished == $count) {
-                echo "<p>Vous avez fini cette merde passer au suivant !</p>";
-                echo '<a class="user_btn" href="questions.php?act='.$_SESSION['user_act']+1 .'">PASSER A L\'ACT SUIVANT</a>';
+                //echo "<p>Vous avez fini cette merde passer au suivant !</p>"."\n";
+                $nextAct = $_SESSION['user_act'] + 1;
+                echo '<a class="user-btn" href="questions.php?act='.$nextAct.'">PASSER A L\'ACT SUIVANT</a>'."\n";
             }
         }
     } else {
@@ -238,7 +247,7 @@ function showAct($bdd, $num_act)
                 echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>'."\n";
                 echo '<h3 class="act-prog">'.round($count_finished / $count * 100) . '% </h3>'."\n";
                 //echo '<progress value="' . round($count_finished / $count * 100) . '" max="100">'.round($count_finished / $count * 100).'%</progress>';
-                echo '<a href="questions.php?act='.$num_act.'">GO <i class="fa-solid fa-angles-right"></i></a>'."\n";
+                echo '<a class="act-btn" href="questions.php?act='.$num_act.'"><div>GO</div> <i class="fa-solid fa-angles-right"></i></a>'."\n";
                 echo '</div>'."\n";
                 $inProgress = true;
             }

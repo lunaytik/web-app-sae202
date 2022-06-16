@@ -41,12 +41,22 @@ body {
     background-color: #1A2332;
 }
 
+li {
+    list-style: none;
+}
+
 .app-title {
     text-align: center;
     font-family: Cygun, sans-serif;
     font-size: 3rem;
-    letter-spacing: 0.315em;
     margin: 3rem;
+}
+
+.app-title span {
+    margin: 0;
+    font-family: Cygun, sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.315em;
 }
 
 .agent-name {
@@ -59,12 +69,51 @@ body {
 #container {
     width: 90vw;
     margin: auto;
+    margin-bottom: 5rem;
 }
 
 h1,
 h2,
 h3 {
     font-family: NexaRegular, sans-serif;
+}
+
+.login-title {
+    font-family: NexaLight, sans-serif;
+    text-align: justify;
+    font-size: 1.3rem;
+}
+
+.login-subtitle {
+    font-family: NexaLight, sans-serif;
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.login-menu {
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-menu ul {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.login-menu li {
+    text-align: center;
+    width: 60vw;
+    padding: 0.8rem 0.5rem;
+    border-radius: 8px;
+    background: rgb(0, 149, 255);
+}
+
+.login-menu a {
+    color: #fff;
 }
 
 .act-card {
@@ -76,7 +125,7 @@ h3 {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
-    width: 46%;
+    width: 50%;
     margin: 6rem 0 0 auto;
     position: relative;
 }
@@ -108,6 +157,18 @@ h3 {
     left: -45%;
     bottom: 50%;
     transform: translate(-50%,50%);
+}
+
+.act-btn {
+    width: 30%;
+    text-align: center;
+    background: rgb(0, 149, 255);
+    color: #fff;
+    padding: 0.3rem 0.5rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .act-link {
@@ -158,49 +219,114 @@ h3 {
     background-color: greenyellow;
 }
 
-.braille-txt > * {
+.braille-txt {
     font-family: Braille, sans-serif !important;
 }
 
+/* .quest-card-sh {
+    filter: drop-shadow(0px 0px 6px rgba(0, 81, 255, 0.466)); 
+
+} */
+
+.quest-big-title {
+    font-family: Cygun, sans-serif;
+    font-size: 3rem;
+    letter-spacing: 0.08em;
+}
 
 .quest-card {
+    border-radius: 12px;
     margin: 2rem 0;
+    margin-bottom: 5rem;
+    background-color: #111927;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
+    height: 80vh;
+    padding: 1rem 2rem;
+    /* clip-path: polygon(16% 0, 100% 0, 100% 90%, 86% 100%, 0 100%, 0 10%); */
 }
 
 .quest-card form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* .quest-card h2, h3 {
-    text-align: center;
-} */
-
-#quest_rep {
-    height: 30px;
     width: 100%;
-    padding-left: 0.5rem;
 }
 
-.quest_btn {
-    width: 50%;
-    height: 30px;
-    margin-top: 0.8rem;
+.quest-card h2, h3 {
+    font-family: NexaLight, sans-serif;
+    text-align: justify;
 }
 
-.quest_img {
-    width: 50%;
+.quest-btn {
+    border: none;
+    box-shadow: none;
+    border-radius: 6px;
+    font-family: NexaBold, sans-serif;
+    font-size: 1.4rem;
+    width: 100%;
+    padding: 0.5rem;
+    color: #fff;
+    background-color: rgb(0, 149, 255);
+}
+
+.quest-rep {
+    font-family: NexaLight, sans-serif;
+    background-color: #1A2332;
+    border: none;
+    box-shadow: none;
+    color: #fff;
+    width: 100%;
+    height: 40px;
+    font-size: 1.2rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    padding-left: 0.7rem;
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.quest-img {
+    width: 100%;
     text-align: center;
+    border-radius: 4px;
 }
 
-progress {
-    height: 50px;
-    width: 98%;
+.quest-lock {
+    width: 60px;
+    height: 60px;
+    background-color: #1A2332;
+    border-radius: 50%;
+    display: grid;
+    place-content: center;
+    font-size: 1.8rem;
+
+}
+
+.quest-lock svg {
+    font-size: 2.5rem;
+}
+
+.quest-locked {
+    color: #FF00F7;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.quest-finished {
+    color: rgb(0, 149, 255);
+}
+
+.quest-lock-container {
+    position: absolute;
+    background-color: rgba(0, 8, 19, 0.747);
+    width: 90vw;
+    height: 80vh;
+    padding: 1rem 0;
+    border-radius: 12px;
 }
 
 a {
@@ -233,23 +359,24 @@ a:hover {
     color: lightgray !important;
 }
 
-.user_btn svg {
+.user-btn svg {
     width: 16px;
     height: 16px;
 }
 
-.user_btn {
+.user-btn {
     display: block;
     text-align: center;
     width: 300px;
     padding: 1rem;
     margin: 1rem auto;
+    margin-bottom: 5rem;
     background-color: rgb(0, 149, 255);
     color: #fff;
     border-radius: 12px;
 }
 
-.user_btn:hover {
+.user-btn:hover {
     background-color: rgb(0, 116, 200);
     color: lightgrey;
 }

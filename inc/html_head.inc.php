@@ -17,7 +17,7 @@
 <body>
     <div id="container">
         <header>
-            <?php echo '<a class="home-link" href="index.php"><h1 class="app-title">NEXUS</h1></a>'."\n"; ?>
+            <?php echo '<a class="home-link" href="index.php"><h1 class="app-title"><span>NEXU</span>S</h1></a>'."\n"; ?>
             <?php if (!empty($_SESSION['user_name'])) {
                 echo '<h1 class="agent-name">Agent ' . $_SESSION['user_name'] . '</h1>'."\n";
             } ?>

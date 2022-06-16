@@ -1,20 +1,31 @@
 <?php require 'inc/html_head.inc.php'; ?>
 
+
 <?php
 
 if (isset($_SESSION['logged'])) {
-    echo '<a href="profile.php"><i class="fa-solid fa-user"></i><span>Profil</span></a><br />'."\n";
-    echo '<a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span></a><br />'."\n";
+    echo '<nav class="logged-menu">' . "\n";
+    echo '<ul>' . "\n";
+    echo '<li><a href="profile.php"><i class="fa-solid fa-user"></i><span>Profil</span></a></li>' . "\n";
+    echo '<li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span></a></li>' . "\n";
+    echo '<li><a href="reset.php"><i class="fa-solid fa-arrow-rotate-left"></i> <span>RESET</span></a></li>' . "\n";
+    echo '</ul>' . "\n";
+    echo '</nav>' . "\n";
 } else {
-    echo '<a href="login.php">Connexion</a><br />'."\n";
-    echo '<a href="signup.php">Inscription</a><br />'."\n";
+    echo '<h2 class="login-title">Découvrez qui est le coupable de ce crime au travers de cette expérience guidée !</h2>' . "\n";
+    echo '<h3 class="login-subtitle">Menez votre propre enquête !</h3>' . "\n";
+
+
+    echo '<nav class="login-menu">' . "\n";
+    echo '<ul>' . "\n";
+    echo '<li><a href="login.php">Connexion</a></li>' . "\n";
+    echo '<li><a href="signup.php">Inscription</a></li>' . "\n";
+    echo '</ul>' . "\n";
+    echo '</nav>' . "\n";
 }
-
-
 
 if (isset($_SESSION['logged'])) {
     $bdd = connexionBDD();
-    echo '<a href="reset.php"><i class="fa-solid fa-arrow-rotate-left"></i> <span>RESET</span></a><br />'."\n";
 
     if (isset($_SESSION['act_error'])) {
         echo $_SESSION['act_error'];
@@ -22,7 +33,7 @@ if (isset($_SESSION['logged'])) {
     }
 
     if (isset($_SESSION['user_act'])) {
-        echo '<a class="user_btn" href="questions.php">Retourner où vous en étiez <i class="fa-solid fa-angles-right"></i></a>'."\n";
+        echo '<a class="user-btn" href="questions.php">Retourner où vous en étiez <i class="fa-solid fa-angles-right"></i></a>' . "\n";
     }
 
 
@@ -39,7 +50,7 @@ if (isset($_SESSION['logged'])) {
         showAct($bdd, $num);
     }
 
-   echo '<style>#link'.$count_act['act_count'].' { display:none }</style>';
+    echo '<style>#link' . $count_act['act_count'] . ' { display:none }</style>';
 
     deconnexionBDD($bdd);
 }
