@@ -36,7 +36,7 @@ if (isset($_SESSION['logged'])) {
     }
 
     if (isset($_SESSION['user_act'])) {
-        echo '<a class="user-btn" href="questions.php">Retourner où vous en étiez <i class="fa-solid fa-angles-right"></i></a>' . "\n";
+        echo '<a class="user-btn" href="questions.php">Se rendre où vous en étiez <i class="fa-solid fa-angles-right"></i></a>' . "\n";
     }
 
     $count_act_req = 'SELECT COUNT(DISTINCT quest_act) as act_count FROM quest';
@@ -56,12 +56,6 @@ if (isset($_SESSION['logged'])) {
 
     deconnexionBDD($bdd);
 }
-
-
-
 ?>
-
-
-
 
 <?php require 'inc/html_end.inc.php'; ?>

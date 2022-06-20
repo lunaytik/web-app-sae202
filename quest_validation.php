@@ -22,10 +22,13 @@
 
         $_quest_tp = htmlspecialchars($_POST['_quest_tp']);
 
+        $_act_id = htmlspecialchars($_POST['_act_id']);
+
+
 
         $bdd = connexionBDD();
 
-        addQuest($bdd, $quest_name, $quest_text, $quest_content, $quest_rep, $quest_act, $quest_step, $quest_type, $_quest_tp);
+        addQuest($bdd, $quest_name, $quest_text, $quest_content, $quest_rep, $quest_act, $quest_step, $quest_type, $_quest_tp, $_act_id);
 
 
         deconnexionBDD($bdd);

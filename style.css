@@ -92,7 +92,7 @@ h3 {
 }
 
 .login-menu {
-    height: 40vh;
+    height: 50vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,7 +101,8 @@ h3 {
 .login-menu ul {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 4rem;
+    width: 100%;
 }
 
 .login-menu a {
@@ -112,6 +113,8 @@ h3 {
     padding: 0.8rem 0.5rem;
     border-radius: 8px;
     background: rgb(0, 149, 255);
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .act-card {
@@ -133,6 +136,12 @@ h3 {
     font-size: 2.5rem;
     letter-spacing: 0.10rem;
 }
+
+.act-titletxt {
+    font-family: NexaLight, sans-serif;
+    font-size: 1.2rem;
+}
+
 
 
 
@@ -250,7 +259,7 @@ h3 {
     width: 100%;
 }
 
-.quest-card h2, h3 {
+.quest-card h2, .quest-card h3 {
     font-family: NexaLight, sans-serif;
     text-align: justify;
 }
@@ -448,10 +457,40 @@ a:hover {
 }
 
 
+.finish-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 3vw;
+    margin: auto;
+    margin-top: 6rem;
+    background-color: #111927;
+    border-radius: 8px;
+    width: 90%;
+    height: 80vw;
+}
+
+.finish-icon {
+    font-size: 3rem;
+    color: goldenrod;
+    text-align: center;
+}
+
+.finish-title {
+    text-align: center;
+}
+
+
 @media screen and (min-width: 600px) {
     #container {
         width: 50vw;
     }
+
+    .finish-card {
+        width: 80%;
+        height: 50vw;
+    }
+
 
     .quest-card {
         width: 30vw;
@@ -462,5 +501,17 @@ a:hover {
     .quest-lock-container {
         width: 30vw;
         padding: 1rem 2rem;
+    }
+}
+
+@media screen and (min-width: 960px) {
+    .login-menu {
+        width: 60%;
+        margin: auto;
+    }
+    
+    .finish-card {
+        width: 50%;
+        height: 22vw;
     }
 }
