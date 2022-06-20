@@ -104,16 +104,14 @@ h3 {
     gap: 2rem;
 }
 
-.login-menu li {
+.login-menu a {
+    display: block;
+    color: #fff;
     text-align: center;
     width: 60vw;
     padding: 0.8rem 0.5rem;
     border-radius: 8px;
     background: rgb(0, 149, 255);
-}
-
-.login-menu a {
-    color: #fff;
 }
 
 .act-card {
@@ -367,13 +365,13 @@ a:hover {
 .user-btn {
     display: block;
     text-align: center;
-    width: 300px;
+    width: 320px;
     padding: 1rem;
-    margin: 1rem auto;
-    margin-bottom: 5rem;
+    margin: 4rem auto 4rem auto;
     background-color: rgb(0, 149, 255);
     color: #fff;
     border-radius: 12px;
+    box-sizing: border-box;
 }
 
 .user-btn:hover {

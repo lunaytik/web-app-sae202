@@ -12,7 +12,7 @@
     </div>
     <div>
         <label for="mdp" id="mdp">Mot de passe</label>
-        <input type="text" name="mdp" id="mdp" required>
+        <input type="password" name="mdp" id="mdp" required>
     </div>
     <input type="submit" value="Valider">
 </form>
