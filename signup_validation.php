@@ -26,6 +26,12 @@
             header('Location: signup.php');
         } else {
             signup($bdd, $username, $mdp, $nom, $prenom, $tp);
+            $_SESSION['user_name'] = $username;
+            $_SESSION['user_nom'] = $nom;
+            $_SESSION['user_prenom'] = $prenom;
+            $_SESSION['user_tp'] = $tp;
+            $_SESSION['logged'] = true;
+            $_SESSION['logged_in'] = "<h2>Inscription réussie ! Vous êtes maintenant connecté !</h2>";
             deconnexionBDD($bdd);
             header('Location: signup.php');
         }

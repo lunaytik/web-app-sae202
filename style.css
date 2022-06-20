@@ -378,3 +378,89 @@ a:hover {
     background-color: rgb(0, 116, 200);
     color: lightgrey;
 }
+
+#form-login {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 50vh;
+}
+
+.form-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-item input {
+    height: 32px;
+    margin-bottom: 0.5rem;
+}
+
+.form-item label {
+    font-family: NexaLight, sans-serif;
+}
+
+.form-btn {
+    border: none;
+    box-shadow: none;
+    border-radius: 6px;
+    font-family: NexaBold, sans-serif;
+    font-size: 1.4rem;
+    width: 100%;
+    padding: 0.5rem;
+    color: #fff;
+    background-color: rgb(0, 149, 255);
+}
+
+.login-txt {
+    font-size: 0.8rem;
+}
+
+.no-usable {
+    pointer-events: none;
+}
+
+#form-signup {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    height: 70vh;
+}
+
+.item-row {
+    flex-direction: row;
+    align-items: center;
+    gap: 2rem;
+}
+
+#form-signup select#tp {
+    height: 32px;
+    width: 48px;
+}
+
+.admin-menu ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 60vh;
+    gap: 2rem;
+    font-size: 1.5rem;
+}
+
+
+@media screen and (min-width: 600px) {
+    #container {
+        width: 50vw;
+    }
+
+    .quest-card {
+        width: 30vw;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .quest-lock-container {
+        width: 30vw;
+        padding: 1rem 2rem;
+    }
+}

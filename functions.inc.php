@@ -52,6 +52,7 @@ function login($bdd, $username, $mdp)
         $_SESSION['user_nom'] = $user['user_nom'];
         $_SESSION['user_prenom'] = $user['user_prenom'];
         $_SESSION['user_tp'] = $user['user_tp'];
+        $_SESSION['user_statut'] = $user['user_statut'];
         $_SESSION['logged'] = true;
         header('Location: index.php');
     } else {

@@ -5,16 +5,18 @@
 <?php if(isset($_SESSION['connected'])) { echo $_SESSION['connected']; $_SESSION['connected'] = null; } ?>
 
 
-<form action="login_validation.php" method="POST">
-    <div>
+<form id="form-login" action="login_validation.php" method="POST">
+    <div class="form-item">
         <label for="username" id="username">Nom d'utilisateur</label>
         <input type="text" name="username" id="username" required>
+        <a class="login-txt" href="signup.php">Pas encore inscrit ?</a>
     </div>
-    <div>
+    <div class="form-item">
         <label for="mdp" id="mdp">Mot de passe</label>
         <input type="password" name="mdp" id="mdp" required>
+        <a class="login-txt no-usable" href="#">Problème de mot de passe ? <br /> Voir avec un des organisateurs</a>
     </div>
-    <input type="submit" value="Valider">
+    <input class="form-btn" type="submit" value="Valider">
 </form>
 
 

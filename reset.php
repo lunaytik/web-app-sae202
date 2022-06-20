@@ -6,6 +6,8 @@
 
         $reset = 'UPDATE quest SET quest_finished = 0';
         $reset = $bdd->query($reset);
+        
+        $_SESSION['user_act'] = 1;
         deconnexionBDD($bdd);
         header('Location: index.php');
         

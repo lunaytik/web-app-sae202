@@ -8,7 +8,10 @@ if (isset($_SESSION['logged'])) {
     echo '<ul>' . "\n";
     echo '<li><a href="profile.php"><i class="fa-solid fa-user"></i><span>Profil</span></a></li>' . "\n";
     echo '<li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span></a></li>' . "\n";
-    echo '<li><a href="reset.php"><i class="fa-solid fa-arrow-rotate-left"></i> <span>RESET</span></a></li>' . "\n";
+    echo '<li><a href="reset.php"><i class="fa-solid fa-arrow-rotate-left"></i> <span>RESET (Dispo uniquement phase de test)</span></a></li>' . "\n";
+    if (isset($_SESSION['user_statut']) && $_SESSION['user_statut'] == 2) {
+        echo '<li><a href="admin.php"><i class="fa-solid fa-house-lock"></i> <span>Dashboard</span></a></li>' . "\n";
+    }
     echo '</ul>' . "\n";
     echo '</nav>' . "\n";
 } else {
@@ -35,7 +38,6 @@ if (isset($_SESSION['logged'])) {
     if (isset($_SESSION['user_act'])) {
         echo '<a class="user-btn" href="questions.php">Retourner où vous en étiez <i class="fa-solid fa-angles-right"></i></a>' . "\n";
     }
-
 
     $count_act_req = 'SELECT COUNT(DISTINCT quest_act) as act_count FROM quest';
     try {
