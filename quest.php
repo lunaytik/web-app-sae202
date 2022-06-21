@@ -14,7 +14,7 @@
     </div>
     <div>
         <label for="quest_content" id="quest_content">quest_content</label>
-        <input type="text" name="quest_content" id="quest_content" required>
+        <input type="text" name="quest_content" id="quest_content">
     </div>
     <div>
         <label for="quest_rep" id="quest_rep">quest_rep</label>
@@ -51,7 +51,7 @@
         <select name="quest_type" id="quest_type" required>
             <option value="1">FLAG</option>
             <option value="2">IMAGE</option>
-            <option value="3">AUTRE</option>
+            <option value="3">TEXTE</option>
         </select>
     </div>
     <div>
@@ -70,14 +70,14 @@
     <div>
         <label for="_act_id" id="_act_id">_act_id</label>
         <select name="_act_id" id="_act_id" required>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
+            <option value="1">Coca Pong</option>
+            <option value="2">Crimes Scenes</option>
+            <option value="3">Upgrade</option>
+            <option value="4">Hacked Laptop</option>
+            <option value="5">Death Name</option>
+            <option value="6">Ou est Joi ?</option>
+            <option value="7">Find the Bugs</option>
+            <option value="8">The Impostor</option>
         </select>
     </div>
     <input type="submit" value="Valider">

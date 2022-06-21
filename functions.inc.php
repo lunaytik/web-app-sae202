@@ -95,9 +95,23 @@ function showTPMembers($bdd, $utilisateurTP)
     }
 }
 
-function addQuest($bdd, $quest_name, $quest_text, $quest_content, $quest_rep, $quest_act, $quest_step, $quest_type, $_quest_tp, $_act_id) {
+function addQuest($bdd, $quest_name, $quest_text, $quest_content, $quest_rep, $quest_act, $quest_step, $quest_type, $_quest_tp, $_act_id)
+{
     $req = 'INSERT INTO quest(quest_name, quest_text, quest_content, quest_rep, quest_act, quest_step, quest_type, quest_finished, _quest_tp, _act_id)
             VALUES ("' . $quest_name . '" , "' . $quest_text . '" , "' . $quest_content . '", "' . $quest_rep . '" ,  ' . $quest_act . ', ' . $quest_step . ', ' . $quest_type . ', 0,"' . $_quest_tp . '", ' . $_act_id . ')';
+    try {
+        $request = $bdd->query($req);
+        //echo $req;
+    } catch (PDOException $e) {
+        echo '<p>Erreur : ' . $e->getMessage() . '</p>';
+        die();
+    }
+}
+
+function addQuest2($bdd, $quest_name, $quest_text, $quest_rep, $quest_act, $quest_step, $quest_type, $_quest_tp, $_act_id)
+{
+    $req = 'INSERT INTO quest(quest_name, quest_text, quest_rep, quest_act, quest_step, quest_type, quest_finished, _quest_tp, _act_id)
+            VALUES ("' . $quest_name . '" , "' . $quest_text . '" , "' . $quest_rep . '" ,  ' . $quest_act . ', ' . $quest_step . ', ' . $quest_type . ', 0,"' . $_quest_tp . '", ' . $_act_id . ')';
     try {
         $request = $bdd->query($req);
         //echo $req;
@@ -123,51 +137,30 @@ function showSteps($bdd, $num_act)
     }
 
     if ($count > 0) {
-        echo '<h1 class="quest-big-title">ACT '.$num_act.'</h1>';
+        echo '<h1 class="quest-big-title">ACT ' . $num_act . '</h1>';
         foreach ($request as $questIndex => $questInfo) {
-            echo '<div class="quest-card-sh">'."\n";
-            echo '<div class="quest-card" id="'.$questInfo['quest_id'].'">'."\n";
+            echo '<div class="quest-card" id="' . $questInfo['quest_id'] . '">' . "\n";
             if ($questInfo['quest_finished'] == 0) {
                 if ($firstQuest) {
-                    echo '<h2 class="braille-txt">' . $questInfo['quest_name'] . '</h2>'."\n";
-                    echo '<h3 class="braille-txt">' . $questInfo['quest_text'] . '</h3>'."\n";
-                    echo '<img class="quest-img" src="images/glitch.jpg" alt="">'."\n";
-                    //echo '<p>Locked</p>'."\n";
-                    echo '<div class="quest-lock-container">'."\n";
-                    echo '<div class="quest-lock quest-locked"> <i class="fa-solid fa-lock"></i> </div>'."\n";
-                    echo '</div>'."\n";
+                    locked_quest($questInfo);
                 } else {
-                    echo '<h2>' . $questInfo['quest_name'] . '</h2>'."\n";
-                    echo '<h3>' . $questInfo['quest_text'] . '</h3>'."\n";
-                    echo '<img class="quest-img" src="images/' . $questInfo['quest_content'] . '" alt="">'."\n";
-                    echo '<form method="POST" action="rep_validation.php">'."\n";
-                    echo '<input type="hidden" name="quest_id" value="' . $questInfo['quest_id'] . '">'."\n";
-                    echo '<div class="quest_form">'."\n";
-                    echo '<input class="quest-rep" type="text" name="quest_rep" id="quest_rep" required placeholder="L\'indice" autocomplete="off">'."\n";
-                    echo '<input class="quest-btn" type="submit" value="Valider">'."\n";
-                    echo '</div>'."\n";
-                    echo '</form>'."\n";
+                    unlocked_quest($questInfo, $questInfo['quest_type']);
                 }
                 $firstQuest = true;
             } else {
                 $count_quest_finished++;
-                echo '<h2>' . $questInfo['quest_name'] . '</h2>'."\n";
-                echo '<h3>' . $questInfo['quest_text'] . '</h3>'."\n";
-                echo '<img class="quest-img" src="images/' . $questInfo['quest_content'] . '" alt="">'."\n";
-                //echo '<p>Already Finished :)</p>'."\n";
-                echo '<div class="quest-lock quest-finished"> <i class="fa-solid fa-check"></i> </div>'."\n";
+                finished_quest($questInfo);
             }
-            echo '</div>'."\n";
-            echo '</div>'."\n";
+            echo '</div>' . "\n";
 
             if ($count_quest_finished == $count) {
-                if ($_SESSION['user_act'] != 4) {
+                if ($_SESSION['user_act'] != 8) {
                     //echo "<p>Vous avez fini cette merde passer au suivant !</p>"."\n";
                     $nextAct = $_SESSION['user_act'] + 1;
-                    echo '<a class="user-btn" href="act_validation.php?act='.$nextAct.'">PASSER A L\'ACT SUIVANT</a>'."\n";
+                    echo '<a class="user-btn" href="act_validation.php?act=' . $nextAct . '">PASSER A L\'ACT SUIVANT</a>' . "\n";
                 } else {
 
-                    echo '<a class="user-btn" href="index.php#nexus-finish">Se rendre à l\'accueil</a>'."\n";
+                    echo '<a class="user-btn" href="index.php#nexus-finish">Se rendre à l\'accueil</a>' . "\n";
                 }
             }
         }
@@ -179,13 +172,12 @@ function showSteps($bdd, $num_act)
 
 function verifQuest($bdd, $quest_id, $quest_rep)
 {
-    $quest_rep = mb_strtolower($quest_rep);
 
     $req = 'SELECT * FROM quest WHERE quest_id = ' . $quest_id . '';
     try {
         $request = $bdd->query($req);
         $quest = $request->fetch();
-        var_dump($quest);
+       // var_dump($quest);
     } catch (PDOException $e) {
         echo '<p>Erreur : ' . $e->getMessage() . '</p>';
         die();
@@ -204,6 +196,25 @@ function verifQuest($bdd, $quest_id, $quest_rep)
     } else {
         $_SESSION['rep_info'] = '<h3>Cette question n\'existe pas</h3>';
         header('Location: questions.php');
+    }
+}
+
+
+function verifQuest2($bdd, $quest_id) {
+    $req2 = 'SELECT quest_finished FROM quest WHERE quest_id = ' . $quest_id . '';
+    try {
+        $request2 = $bdd->query($req2);
+        $quest2 = $request2->fetch();
+    } catch (PDOException $e) {
+        echo '<p>Erreur : ' . $e->getMessage() . '</p>';
+        die();
+    }
+
+    if (isset($quest2)) {
+            $finished = 'UPDATE quest SET quest_finished = 1 WHERE quest_id = ' . $quest_id . '';
+            $finished = $bdd->query($finished);
+    } else {
+        $_SESSION['rep_info'] = '<h3>Cette question n\'existe pas</h3>';
     }
 }
 
@@ -234,60 +245,101 @@ function showAct($bdd, $num_act)
         die();
     }
     if ($count > 0) {
-        echo '<div class="act-card">'."\n";
+        echo '<div class="act-card">' . "\n";
         if ($count != $count_finished) {
             if ($inProgress) {
-                echo '<div id="link'.$num_act.'" class="act-link act-bg-locked"></div>'."\n";
-                echo '<div class="act-lock act-locked"> <i class="fa-solid fa-lock"></i> </div>'."\n";
-                echo '<div class="act-infos">'."\n";
-                echo '<h1 class="act-title">ACT ' . $num_act . '</h1>'."\n";
+                echo '<div id="link' . $num_act . '" class="act-link act-bg-locked"></div>' . "\n";
+                echo '<div class="act-lock act-locked"> <i class="fa-solid fa-lock"></i> </div>' . "\n";
+                echo '<div class="act-infos">' . "\n";
+                echo '<h1 class="act-title">ACT ' . $num_act . '</h1>' . "\n";
                 echo '<div>' . "\n";
-                echo '<h2 class="act-titletxt">'.$act['act_name'].'</h2>'."\n";
-                echo '<h4 class="act-txt act-locked">Locked</h4>'."\n";
+                echo '<h2 class="act-titletxt">' . $act['act_name'] . '</h2>' . "\n";
+                echo '<h4 class="act-txt act-locked">Locked</h4>' . "\n";
                 echo '</div>' . "\n";
-                echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>'."\n";
-                echo '<h4>Finish the previous act to unlock</h4>'."\n";
-                echo '</div>'."\n";
+                echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>' . "\n";
+                echo '<h4>Finish the previous act to unlock</h4>' . "\n";
+                echo '</div>' . "\n";
             } else {
-                echo '<div id="link'.$num_act.'" class="act-link act-bg-unlocked"></div>'."\n";
-                echo '<div class="act-lock act-unlocked"> <i class="fa-solid fa-unlock"></i> </div>'."\n";
+                echo '<div id="link' . $num_act . '" class="act-link act-bg-unlocked"></div>' . "\n";
+                echo '<div class="act-lock act-unlocked"> <i class="fa-solid fa-unlock"></i> </div>' . "\n";
                 echo '<div class="act-infos">';
-                echo '<h1 class="act-title">ACT ' . $num_act . '</h1>'."\n";
+                echo '<h1 class="act-title">ACT ' . $num_act . '</h1>' . "\n";
                 echo '<div>' . "\n";
-                echo '<h2 class="act-titletxt">'.$act['act_name'].'</h2>'."\n";
-                echo '<h4 class="act-txt act-unlocked">Unlocked</h4>'."\n";
+                echo '<h2 class="act-titletxt">' . $act['act_name'] . '</h2>' . "\n";
+                echo '<h4 class="act-txt act-unlocked">Unlocked</h4>' . "\n";
                 echo '</div>' . "\n";
-                echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>'."\n";
-                echo '<h3 class="act-prog">'.round($count_finished / $count * 100) . '% </h3>'."\n";
+                echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>' . "\n";
+                echo '<h3 class="act-prog">' . round($count_finished / $count * 100) . '% </h3>' . "\n";
                 //echo '<progress value="' . round($count_finished / $count * 100) . '" max="100">'.round($count_finished / $count * 100).'%</progress>';
-                echo '<a class="act-btn" href="questions.php?act='.$num_act.'"><div>GO</div> <i class="fa-solid fa-angles-right"></i></a>'."\n";
-                echo '</div>'."\n";
+                echo '<a class="act-btn" href="questions.php?act=' . $num_act . '"><div>GO</div> <i class="fa-solid fa-angles-right"></i></a>' . "\n";
+                echo '</div>' . "\n";
                 $inProgress = true;
             }
         } else {
-            echo '<div id="link'.$num_act.'" class="act-link act-bg-unlocked"></div>'."\n";
-            echo '<div class="act-lock act-unlocked"> <i class="fa-solid fa-check"></i> </div>'."\n";
-            echo '<div class="act-infos">'."\n";
-            echo '<h1 class="act-title">ACT ' . $num_act . '</h1>'."\n";
+            echo '<div id="link' . $num_act . '" class="act-link act-bg-unlocked"></div>' . "\n";
+            echo '<div class="act-lock act-unlocked"> <i class="fa-solid fa-check"></i> </div>' . "\n";
+            echo '<div class="act-infos">' . "\n";
+            echo '<h1 class="act-title">ACT ' . $num_act . '</h1>' . "\n";
             echo '<div>' . "\n";
-            echo '<h2 class="act-titletxt">'.$act['act_name'].'</h2>'."\n";
-            echo '<h4 class="act-txt act-unlocked">Finished</h4>'."\n";
+            echo '<h2 class="act-titletxt">' . $act['act_name'] . '</h2>' . "\n";
+            echo '<h4 class="act-txt act-unlocked">Finished</h4>' . "\n";
             echo '</div>' . "\n";
-            echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>'."\n";
-            echo '</div>'."\n";
+            echo '<h2 class="act-step"> <i class="fa-regular fa-flag"></i> Étapes finies ' . $count_finished . '/' . $count . '</h2>' . "\n";
+            echo '</div>' . "\n";
         }
-        echo '</div>'."\n";
+        echo '</div>' . "\n";
 
-        if ($count == $count_finished && $num_act == 4) {
+        if ($count == $count_finished && $num_act == 8) {
             echo '<div class="finish-card" id="nexus-finish">' . "\n";
-            echo '<div class="finish-icon"> <i class="fa-solid fa-trophy"></i> </div>'."\n";
-            echo '<h2 class="finish-title">VOUS AVEZ FINI ! GG</h2>'."\n";
+            echo '<div class="finish-icon"> <i class="fa-solid fa-trophy"></i> </div>' . "\n";
+            echo '<h2 class="finish-title">VOUS AVEZ FINI ! GG</h2>' . "\n";
             echo '<h3 class"finish-subtitle">Le coupable était ????????????????</h3>';
-            echo '</div>'."\n";
+            echo '</div>' . "\n";
         }
-
     } else {
         echo "Il n'y a pas de questions dans cet acte. <br />
         C'est une erreur, contactez des étudiants de S3";
     }
+}
+
+function locked_quest($quest) {
+    echo '<h2 class="braille-txt">' . $quest['quest_name'] . '</h2>' . "\n";
+    echo '<h3 class="braille-txt">' . $quest['quest_text'] . '</h3>' . "\n";
+    echo '<img class="quest-img" src="images/glitch.jpg" alt="">' . "\n";
+    echo '<div class="quest-lock-container">' . "\n";
+    echo '<div class="quest-lock quest-locked"> <i class="fa-solid fa-lock"></i> </div>' . "\n";
+    echo '</div>' . "\n";
+}
+
+function unlocked_quest($quest, $quest_type) {
+    if ($quest_type == 1) {
+        echo '<h2>' . $quest['quest_name'] . '</h2>' . "\n";
+        echo '<h3>' . $quest['quest_text'] . '</h3>' . "\n";
+        echo '<img class="quest-img" src="images/' . $quest['quest_content'] . '" alt="">' . "\n";
+        echo '<form method="POST" action="rep_validation.php">' . "\n";
+        echo '<input type="hidden" name="quest_id" value="' . $quest['quest_id'] . '">' . "\n";
+        echo '<div class="quest_form">' . "\n";
+        echo '<input class="quest-rep" type="text" name="quest_rep" id="quest_rep" required placeholder="L\'indice" autocomplete="off">' . "\n";
+        echo '<input class="quest-btn" type="submit" value="Valider">' . "\n";
+        echo '</div>' . "\n";
+        echo '</form>' . "\n";
+    }
+    if ($quest_type == 3) {
+        echo '<h2>' . $quest['quest_name'] . '</h2>' . "\n";
+        echo '<h3>' . $quest['quest_text'] . '</h3>' . "\n";
+        echo '<form method="POST" action="valid_validation.php">' . "\n";
+        echo '<input type="hidden" name="quest_id" value="' . $quest['quest_id'] . '">' . "\n";
+        echo '<div class="quest_form">' . "\n";
+        echo '<input class="quest-btn" type="submit" value="Continuer">' . "\n";
+        echo '</div>' . "\n";
+        echo '</form>' . "\n";
+    }
+    
+}
+
+function finished_quest($quest) {
+    echo '<h2>' . $quest['quest_name'] . '</h2>' . "\n";
+    echo '<h3>' . $quest['quest_text'] . '</h3>' . "\n";
+    echo '<img class="quest-img" src="images/' . $quest['quest_content'] . '" alt="">' . "\n";
+    echo '<div class="quest-lock quest-finished"> <i class="fa-solid fa-check"></i> </div>' . "\n";
 }
