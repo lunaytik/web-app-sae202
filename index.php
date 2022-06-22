@@ -3,15 +3,16 @@
 
 <?php
 
+if(isset($_SESSION['logged_in'])) { echo $_SESSION['logged_in']; $_SESSION['logged_in'] = null; }
+
+
 if (isset($_SESSION['logged'])) {
     echo '<nav class="logged-menu">' . "\n";
     echo '<ul>' . "\n";
     echo '<li><a href="profile.php"><i class="fa-solid fa-user"></i><span>Profil</span></a></li>' . "\n";
     echo '<li><a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i><span>Déconnexion</span></a></li>' . "\n";
     echo '<li><a href="reset.php"><i class="fa-solid fa-arrow-rotate-left"></i> <span>RESET (Dispo uniquement phase de test)</span></a></li>' . "\n";
-    if (isset($_SESSION['user_statut']) && $_SESSION['user_statut'] == 2) {
-        echo '<li><a href="admin.php"><i class="fa-solid fa-house-lock"></i> <span>Dashboard</span></a></li>' . "\n";
-    }
+    echo '<li><a href="indices.php"><i class="fa-solid fa-file-circle-question"></i> <span>Réponses</span></a></li>' . "\n";
     echo '</ul>' . "\n";
     echo '</nav>' . "\n";
 } else {

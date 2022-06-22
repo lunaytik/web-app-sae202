@@ -22,7 +22,7 @@
         $verifUser->execute(array($username));
 
         if ($verifUser->rowCount() > 0) {
-            $_SESSION['alreadySignup'] = "<h2>Ce nom d'utilisateur est déjà utilisé</h2>";
+            $_SESSION['alreadySignup'] = '<h3 class="info info-xl info-error sml-txt">Ce nom d\'utilisateur est déjà utilisé</h3>';
             header('Location: signup.php');
         } else {
             signup($bdd, $username, $mdp, $nom, $prenom, $tp);
@@ -31,9 +31,9 @@
             $_SESSION['user_prenom'] = $prenom;
             $_SESSION['user_tp'] = $tp;
             $_SESSION['logged'] = true;
-            $_SESSION['logged_in'] = "<h2>Inscription réussie ! Vous êtes maintenant connecté !</h2>";
+            $_SESSION['logged_in'] = '<h3 class="info info-xl info-success">Inscription réussie ! Connecté !</h3>';
             deconnexionBDD($bdd);
-            header('Location: signup.php');
+            header('Location: index.php');
         }
     } else {
         header('Location: signup.php');

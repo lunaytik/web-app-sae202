@@ -1,7 +1,6 @@
 <?php require 'inc/html_head.inc.php'; ?>
 
-<?php if(isset($_SESSION['alreadySignup'])) { echo $_SESSION['alreadySignup']; $_SESSION['alreadySignup'] = null; } ?>
-<?php if(isset($_SESSION['logged_in'])) { echo $_SESSION['logged_in']; $_SESSION['logged_in'] = null; } ?>
+<?php if(isset($_SESSION['alreadySignup'])) { echo $_SESSION['alreadySignup'];  } ?>
 
 <form id="form-signup" action="signup_validation.php" method="POST">
     <div class="form-item">

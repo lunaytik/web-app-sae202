@@ -1,4 +1,7 @@
 <?php require 'inc/html_head.inc.php'; ?>
+<a href="index.php">Retour <i class="fa-solid fa-turn-down"></i></a>
+
+
 
 <?php
 
@@ -6,7 +9,7 @@
 
     if (isset($_SESSION['rep_info'])) {
         echo $_SESSION['rep_info'];
-        unset($_SESSION['rep_info']);
+
     }
 
     if (!empty($_GET['act'])) {

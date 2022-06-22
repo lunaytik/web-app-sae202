@@ -46,23 +46,23 @@ function login($bdd, $username, $mdp)
     }
 
     $user = $request->fetch();
-
-    if (password_verify($mdp, $user['user_mdp'])) {
-        $_SESSION['user_name'] = $user['user_name'];
-        $_SESSION['user_nom'] = $user['user_nom'];
-        $_SESSION['user_prenom'] = $user['user_prenom'];
-        $_SESSION['user_tp'] = $user['user_tp'];
-        $_SESSION['user_statut'] = $user['user_statut'];
-        $_SESSION['logged'] = true;
-        header('Location: index.php');
-    } else {
-        $_SESSION['wrongPassword'] = "<h2>Mot de passe incorrect</h2>";
-        header('Location: login.php');
-    }
+        if (password_verify($mdp, $user['user_mdp'])) {
+            $_SESSION['user_name'] = $user['user_name'];
+            $_SESSION['user_nom'] = $user['user_nom'];
+            $_SESSION['user_prenom'] = $user['user_prenom'];
+            $_SESSION['user_tp'] = $user['user_tp'];
+            $_SESSION['user_statut'] = $user['user_statut'];
+            $_SESSION['logged'] = true;
+            header('Location: index.php');
+        } else {
+            $_SESSION['wrongPassword'] = '<h3 class="info info-xl info-error">Mot de passe incorrect !</h3>';
+            header('Location: login.php');
+        }
 }
 
 function showOwnInfos()
-{
+{   
+    echo '<div class="profile">';
     echo "<h2>Profil</h2>";
     echo "<ul>";
     echo "<li>Nom d'utilisateur : " . $_SESSION['user_name'] . "</li>";
@@ -70,6 +70,7 @@ function showOwnInfos()
     echo "<li>Nom : " . $_SESSION['user_nom'] . "</li>";
     echo "<li>TP " . $_SESSION['user_tp'] . "</li>";
     echo "</ul>";
+    echo "</div>";
 }
 
 function showTPMembers($bdd, $utilisateurTP)
@@ -84,12 +85,14 @@ function showTPMembers($bdd, $utilisateurTP)
     }
 
     if ($count > 0) {
+        echo '<div class="profile-tp">';
         echo '<h2>Les personnes dans le TP</h2>';
         echo '<ul>';
         foreach ($request as $userIndex => $userInfo) {
             echo '<li>' . $userInfo['user_prenom'] . ' ' . $userInfo['user_nom'] . '</li>';
         }
         echo '</ul>';
+        echo '</div>';
     } else {
         echo "Ce TP est vide";
     }
@@ -188,9 +191,9 @@ function verifQuest($bdd, $quest_id, $quest_rep)
             echo "OK";
             $finished = 'UPDATE quest SET quest_finished = 1 WHERE quest_id = ' . $quest_id . '';
             $finished = $bdd->query($finished);
-            $_SESSION['rep_info'] = '<h3>Bonne réponse !</h3>';
+            $_SESSION['rep_info'] = '<h3 class="info info-success">Bonne réponse !</h3>';
         } else {
-            $_SESSION['rep_info'] = '<h3>Ce n\'est pas la bonne réponse</h3>';
+            $_SESSION['rep_info'] = '<h3 class="info info-error">Mauvaise réponse !</h3>';
             header('Location: questions.php');
         }
     } else {
@@ -293,7 +296,7 @@ function showAct($bdd, $num_act)
             echo '<div class="finish-card" id="nexus-finish">' . "\n";
             echo '<div class="finish-icon"> <i class="fa-solid fa-trophy"></i> </div>' . "\n";
             echo '<h2 class="finish-title">VOUS AVEZ FINI ! GG</h2>' . "\n";
-            echo '<h3 class"finish-subtitle">Le coupable était ????????????????</h3>';
+            echo '<h3 class"finish-subtitle">Le coupable était le Canard Cyberpunk</h3>';
             echo '</div>' . "\n";
         }
     } else {
